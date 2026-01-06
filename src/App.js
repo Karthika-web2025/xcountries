@@ -20,7 +20,7 @@ function App() {
 
     } catch (error) {
       // console.error(error);
-      return error
+      return "Error fetching data:"
       
     }
   };
