@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import Countrycard from './CountryCard';
 
 function App() {
+  const [ countries,setcountries] = useState([])
+  
+ useEffect(() => {
+  const fetchCountries = async () => {
+    try {
+      const res = await fetch("https://xcountries-backend.labs.crio.do/all");
+
+   
+      if (!res.ok) {
+        throw new Error("Failed to fetch countries");
+      }
+
+      const data = await res.json();
+      setcountries(data);
+
+    } catch (error) {
+      console.error(error);
+      
+    }
+  };
+
+  fetchCountries();
+}, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <div className='container'>
+    {countries.map((country,index)=>(
+ <Countrycard key={index} name={country.name} flag={country.flag}/>
+    ))}
+   
+   </div>
   );
 }
 
